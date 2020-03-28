@@ -35,8 +35,8 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.app.NotificationChannel;
-public static final String NOTIFICATION_CHANNEL_ID_SERVICE = "de.appplant.cordova.plugin.background";
-public static final String NOTIFICATION_CHANNEL_ID_INFO = "com.package.download_info";
+public static String NOTIFICATION_CHANNEL_ID_SERVICE = "de.appplant.cordova.plugin.background";
+public static String NOTIFICATION_CHANNEL_ID_INFO = "com.package.download_info";
 
 import org.json.JSONObject;
 
