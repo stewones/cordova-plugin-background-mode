@@ -35,8 +35,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.app.NotificationChannel;
-public static String NOTIFICATION_CHANNEL_ID_SERVICE = "de.appplant.cordova.plugin.background";
-public static String NOTIFICATION_CHANNEL_ID_INFO = "com.package.download_info";
 
 import org.json.JSONObject;
 
@@ -48,6 +46,9 @@ import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
  * when low on memory.
  */
 public class ForegroundService extends Service {
+	
+	public final static String NOTIFICATION_CHANNEL_ID_SERVICE = "de.appplant.cordova.plugin.background";
+	public final static String NOTIFICATION_CHANNEL_ID_INFO = "com.package.download_info";
 
     // Fixed ID for the 'foreground' notification
     public static final int NOTIFICATION_ID = -574543954;
