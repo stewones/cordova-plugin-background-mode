@@ -46,9 +46,6 @@ import static android.os.PowerManager.PARTIAL_WAKE_LOCK;
  * when low on memory.
  */
 public class ForegroundService extends Service {
-	
-	public final static String NOTIFICATION_CHANNEL_ID_SERVICE = "de.appplant.cordova.plugin.background";
-	public final static String NOTIFICATION_CHANNEL_ID_INFO = "com.package.download_info";
 
     // Fixed ID for the 'foreground' notification
     public static final int NOTIFICATION_ID = -574543954;
@@ -126,25 +123,22 @@ public class ForegroundService extends Service {
      * by the OS.
      */
     @SuppressLint("WakelockTimeout")
-    private void keepAwake() {
-       JSONObject settings = BackgroundMode.getSettings();
-       boolean isSilent    = settings.optBoolean("silent", false);
-       if (!isSilent) {
-           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-               NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-               nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_SERVICE, "App Service", NotificationManager.IMPORTANCE_DEFAULT));
-               nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_INFO, "Download Info", NotificationManager.IMPORTANCE_DEFAULT));
-           } else {
-               startForeground(NOTIFICATION_ID, makeNotification());
-           }
-       }
+    private void keepAwake()
+    {
+        JSONObject settings = BackgroundMode.getSettings();
+        boolean isSilent    = settings.optBoolean("silent", false);
 
-       PowerManager powerMgr = (PowerManager)
-               getSystemService(POWER_SERVICE);
-       wakeLock = powerMgr.newWakeLock(
-               PowerManager.PARTIAL_WAKE_LOCK, "BackgroundMode");
-       wakeLock.acquire();
-   } 
+        if (!isSilent) {
+            startForeground(NOTIFICATION_ID, makeNotification());
+        }
+
+        PowerManager pm = (PowerManager)getSystemService(POWER_SERVICE);
+
+        wakeLock = pm.newWakeLock(
+                PARTIAL_WAKE_LOCK, "backgroundmode:wakelock");
+
+        wakeLock.acquire();
+    }
 
     /**
      * Stop background mode.
@@ -291,6 +285,10 @@ public class ForegroundService extends Service {
 
         if (resId == 0) {
             resId = res.getIdentifier("icon", type, pkgName);
+        }
+
+        if (resId == 0) {
+            resId = res.getIdentifier("ic_launcher", type, pkgName);
         }
 
         return resId;
